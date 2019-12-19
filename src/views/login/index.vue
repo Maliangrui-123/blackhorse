@@ -25,7 +25,7 @@
         </el-form-item>
         <!-- 登录按钮 -->
         <el-form-item>
-            <el-button @click="submitLogin" type="primary" style="width:100%">登录</el-button>
+            <el-button  @click="submitLogin" type="primary" style="width:100%">登录</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -70,10 +70,25 @@ export default {
   methods: {
     // 提交登录表单
     submitLogin () {
-      this.$refs.myForm.validate(function (isOK) {
+      this.$refs.myForm.validate((isOK) => {
         if (isOK) {
           //  认为前方所有表单格式正确
-          console.log('前端校验成功')
+          this.$axios({
+            url: '/authorizations',
+            method: 'post',
+            // 两个参数，一个是地址参数，一个是data参数，来接受响应体参数
+            data: this.loginForm
+          }).then(result => {
+            // 参数全部正确就进入then
+            window.localStorage.setItem('user-token', result.data.data.token) // 前端缓存令牌
+            this.$router.push('/home')
+          }).catch(() => {
+            // elementUI的方法
+            this.$message({
+              message: '您的手机号或者验证码不正确',
+              type: 'warning'
+            })
+          })
         }
       })
     }
