@@ -10,10 +10,10 @@
     </el-col>
     <el-col class="right" :span="4">
       <el-row type="flex" justify="end" align="middle">
-        <img src="../../assets/img/微信图片_20191220145559.png" alt />
+        <img :src="userInfo.photo ? userInfo.photo : defaultImg" alt />
         <!-- 下拉菜单的容器el-dropdown -->
         <el-dropdown>
-            <span>tonyの马</span>
+            <span>{{userInfo.name}}</span>
             <!-- 下拉菜单 -->
             <el-dropdown-menu slot="dropdown">
                 <!-- 菜单内容 -->
@@ -28,7 +28,27 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data () {
+    return {
+      userInfo: {}, // 用户信息
+      defaultImg: require('../../assets/img/微信图片_20191220145559.png')
+    }
+  },
+  created () {
+    let token = window.localStorage.getItem('user-token')// 获取令牌
+    // 查询数据
+    this.$axios({
+      url: '/user/profile',
+      headers: {
+        // 传headers参数
+        Authorization: `Bearer ${token}`
+      }
+    }).then(result => {
+      this.userInfo = result.data.data // 获取用户的个人信息
+    })
+  }
+}
 </script>
 
 <style lang="less" scoped>
