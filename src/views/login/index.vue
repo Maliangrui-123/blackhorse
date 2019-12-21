@@ -80,7 +80,7 @@ export default {
             data: this.loginForm
           }).then(result => {
             // 参数全部正确就进入then
-            window.localStorage.setItem('user-token', result.data.data.token) // 前端缓存令牌
+            window.localStorage.setItem('user-token', result.data.token) // 前端缓存令牌
             this.$router.push('/home')
           }).catch(() => {
             // elementUI的方法

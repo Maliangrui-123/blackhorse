@@ -41,7 +41,7 @@ export default {
     this.$axios({
       url: '/user/profile'
     }).then(result => {
-      this.userInfo = result.data.data // 获取用户的个人信息
+      this.userInfo = result.data // 获取用户的个人信息
     })
   },
   methods: {
