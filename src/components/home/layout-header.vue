@@ -37,14 +37,9 @@ export default {
     }
   },
   created () {
-    let token = window.localStorage.getItem('user-token')// 获取令牌
     // 查询数据
     this.$axios({
-      url: '/user/profile',
-      headers: {
-        // 传headers参数
-        Authorization: `Bearer ${token}`
-      }
+      url: '/user/profile'
     }).then(result => {
       this.userInfo = result.data.data // 获取用户的个人信息
     })
