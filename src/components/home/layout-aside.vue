@@ -20,7 +20,7 @@
           <el-menu-item index="/home/comment">评论列表</el-menu-item>
           <el-menu-item index="/home/material">素材管理</el-menu-item>
       </el-submenu>
-      <el-submenu index="1">
+      <el-submenu index="2">
           <!-- 放置 el-menu-item -->
           <span slot="title">粉丝管理</span>
           <el-menu-item index="/home/picture">图文数据</el-menu-item>
