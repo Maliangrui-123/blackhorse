@@ -2,6 +2,7 @@
 import axios from 'axios'
 import router from '../router' // 引入路由实例对象
 import { Message } from 'element-ui'
+import JSONBig from 'json-bigint'
 // 赋值黑马头条的默认地址
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
 // 请求拦截
@@ -13,6 +14,10 @@ axios.interceptors.request.use(function (config) { // 参数config是axios的所
 }, function () {
   // 执行请求失败
 })
+// 后台数据 到达响应拦截之前走的一个参数
+axios.defaults.transformResponse = [ function (data) {
+  return JSONBig.parse(data)
+}]
 // 响应拦截
 axios.interceptors.response.use(function (response) {
   // 成功时执行
