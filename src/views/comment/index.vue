@@ -25,6 +25,11 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-row type="flex" justify="center" align="middle" style="height:80px">
+      <el-pagination background layout="prev, pager, next" :current-page="page.currentPage" :total="page.total" :page-size="page.pageSize" @current-change="changePage">
+    </el-pagination>
+    </el-row>
+
   </el-card>
 </template>
 
@@ -32,17 +37,30 @@
 export default {
   data () {
     return {
-      list: []
+      list: [],
+      page: {
+        // 专门放置分页数据
+        total: 0, // 数据总条数
+        pageSize: 10,
+        currentPage: 1
+      }
     }
   },
   methods: {
+    // 页码改变事件
+    changePage (newPage) {
+      // 1.修改当前页码
+      this.page.currentPage = newPage
+      this.getComment()
+    },
     //   请求评论列表数据
     getComment () {
       this.$axios({
         url: '/articles',
-        params: { response_type: 'comment' }
+        params: { response_type: 'comment', page: this.page.currentPage, per_page: this.page.pageSize }
       }).then(result => {
         this.list = result.data.results // 获取评论列表数据
+        this.page.total = result.data.total_count // 获取文章总条数
       })
     },
     // 定义一个布尔值转化方法
