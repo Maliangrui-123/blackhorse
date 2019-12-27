@@ -10,10 +10,10 @@
     </el-col>
     <el-col class="right" :span="4">
       <el-row type="flex" justify="end" align="middle">
-        <img :src="!userInfo.photo ? userInfo.photo : defaultImg" alt />
+        <img :src="userInfo.photo ? userInfo.photo : defaultImg" alt />
         <!-- 下拉菜单的容器el-dropdown -->
         <el-dropdown @command="handle">
-            <span>{{!userInfo.name ? userInfo.name : defaultname}}</span>
+            <span>{{userInfo.name ? userInfo.name : defaultname}}</span>
             <!-- 下拉菜单 -->
             <el-dropdown-menu slot="dropdown">
                 <!-- 菜单内容 -->

@@ -26,7 +26,7 @@ axios.interceptors.response.use(function (response) {
   let message = '' // 提示信息
   switch (status) {
     case 400:
-      message = '手机号或验证码错误'
+      message = '请求参数错误'
       break
     case 401:
       // token过期
@@ -48,6 +48,7 @@ axios.interceptors.response.use(function (response) {
   }
   // 状态码提示
   Message({ type: 'warning', message }) // 提示消息
+  return Promise.reject(error)
 })
 // 导出axios
 export default axios
