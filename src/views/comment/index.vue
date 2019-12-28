@@ -1,5 +1,5 @@
 <template>
-  <el-card>
+  <el-card v-loading="loading">
     <!-- 面包屑给了卡片的具名插槽 -->
     <bread-crumb slot="header">
       <!-- 插槽内容 -->
@@ -37,6 +37,7 @@
 export default {
   data () {
     return {
+      loading: false,
       list: [],
       page: {
         // 专门放置分页数据
@@ -55,10 +56,12 @@ export default {
     },
     //   请求评论列表数据
     getComment () {
+      this.loading = true
       this.$axios({
         url: '/articles',
         params: { response_type: 'comment', page: this.page.currentPage, per_page: this.page.pageSize }
       }).then(result => {
+        this.loading = false
         this.list = result.data.results // 获取评论列表数据
         this.page.total = result.data.total_count // 获取文章总条数
       })
@@ -96,6 +99,7 @@ export default {
   },
   created () {
     //   调用上面设置的请求数据方法
+
     this.getComment()
   }
 }
