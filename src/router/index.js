@@ -22,6 +22,9 @@ const routes = [
       // 二级路由表
       path: 'comment', // 可以写完整地址和相对地址
       component: () => import('../views/comment') // 按需加载
+    }, {
+      path: 'material',
+      component: () => import('../views/material')
     }]
   }, {
     // 登录页
