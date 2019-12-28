@@ -1,10 +1,16 @@
 <template>
   <!-- 基本页面结构 -->
-  <el-card>
+  <el-card v-loading="loading">
     <bread-crumb slot="header">
       <template slot="title">素材管理</template>
     </bread-crumb>
-    <!-- 放置素材 -->
+    <!-- 放置上传素材 -->
+    <el-row type="flex" justify="end">
+      <el-upload action="" :http-request="uploadImg" :show-file-list="false">
+        <el-button size="small" type="primary">点击上传</el-button>
+      </el-upload>
+    </el-row>
+    <!-- 放置组件素材 -->
     <el-tabs v-model="activeName" @tab-click="changeTab">
       <el-tab-pane label="全部素材" name="all">
         <!-- 全部素材内容 需要定制一个样式 -->
@@ -30,7 +36,7 @@
           ></el-pagination>
         </el-row>
       </el-tab-pane>
-        <!-- 收藏素材内容 -->
+      <!-- 收藏素材内容 -->
       <el-tab-pane label="收藏素材" name="collect">
         <div class="img-list">
           <!-- v-for渲染页面 -->
@@ -58,6 +64,7 @@
 export default {
   data () {
     return {
+      loading: false,
       activeName: 'all', // 默认选中
       list: [], // 接收全部数据
       page: {
@@ -68,10 +75,27 @@ export default {
     }
   },
   methods: {
+    //   上传图片
+    uploadImg (params) {
+      this.loading = true
+      let form = new FormData()
+      form.append('image', params.file) // 添加文件到formData
+      this.$axios({
+        method: 'post',
+        url: '/user/images',
+        data: form
+      }).then(result => {
+        // 进入到then说明已经上传成功了
+        this.loading = false
+        this.getAllMaterial()
+      })
+    },
+    // 切换分页事件
     changePage (newPage) {
       this.page.currentPage = newPage // 得到一个最新页码
       this.getAllMaterial()
     },
+    // 切换tab栏事件
     changeTab () {
       this.page.currentPage = 1 // 切换的时候重置到第一页
       this.getAllMaterial()
